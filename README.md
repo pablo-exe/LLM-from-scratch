@@ -1,6 +1,6 @@
 # LLM from scratch
 
-Estoy intentando programar un LLM desde cero con PyTorch. Parto únicamente de este esquema y voy intentando llevar cada pieza a código para entender cómo funciona.
+Estoy intentando programar un LLM desde cero con PyTorch. Usando únicamente de este esquema y estoy intentando costruir cada pieza a código para entender cómo funciona.
 
 ![Esquema del transformer que estoy usando como referencia](docs/transformer.png)
 
@@ -14,6 +14,6 @@ Lo que tengo en mente:
 - Crear el tokenizer y montar el backbone completo.
 - Entrenarlo y generar texto.
 - Implementar KV cache para la generación.
-- Más adelante, meterme con fine-tuning y RL.
+- Más adelante, meterme con post training (SFT y RLHF).
 
 Quiero recorrer todo el proceso manteniendo esa arquitectura como base. De momento, work in progress.
