@@ -1,19 +1,31 @@
 # LLM from scratch
 
-Estoy intentando programar un LLM desde cero con PyTorch. Parto únicamente de este esquema y voy intentando llevar cada pieza a código para entender cómo funciona.
+Proyecto de aprendizaje para construir, pieza a pieza, un modelo de lenguaje causal con PyTorch. La base es un decoder tipo GPT con embeddings posicionales aprendidos.
 
-![Esquema del transformer que estoy usando como referencia](docs/transformer.png)
+## Instalar
 
-La idea es mantener la arquitectura de GPT-2: un transformer decoder con masked self-attention y embeddings posicionales aprendidos clásicos.
+Requiere Python 3.10 o posterior. Desde la raíz del repositorio:
 
-Por ahora llevo unas primeras pruebas de attention en [Transformer.ipynb](Transformer.ipynb): embeddings, proyecciones Q, K y V, scaled dot-product attention y una conexión residual. Todavía falta separar las cabezas y añadir la máscara causal. Está todo bastante verde y lo iré construyendo poco a poco.
+```powershell
+python -m pip install -e ".[notebooks]"
+```
 
-Lo que tengo en mente:
+## Entrenar y generar
 
-- Terminar la attention multi-head con su máscara causal.
-- Crear el tokenizer y montar el backbone completo.
-- Entrenarlo y generar texto.
-- Implementar KV cache para la generación.
-- Más adelante, meterme con fine-tuning y RL.
+Prepara un archivo UTF-8 de texto y ejecuta:
 
-Quiero recorrer todo el proceso manteniendo esa arquitectura como base. De momento, work in progress.
+```powershell
+python scripts/train.py --text-file data.txt --output checkpoints/gpt.pt
+python scripts/generate.py --checkpoint checkpoints/gpt.pt --prompt "Érase una vez" --tokens 80
+```
+
+Los valores predeterminados son pequeños para poder experimentar en CPU. Ajusta `--block-size`, `--embedding-dim`, `--heads`, `--layers`, `--epochs` y `--batch-size` según el equipo y el corpus.
+
+## Estructura
+
+- `notebooks/`: recorrido didáctico de datos, attention, arquitectura, preentrenamiento y fine-tuning.
+- `src/llm_from_scratch/`: tokenizer y dataset, attention causal, GPT, entrenamiento, generación, clasificación y LoRA.
+- `scripts/`: puntos de entrada para entrenar, generar y ajustar el modelo.
+- `tests/`: pruebas de forma y causalidad para attention y modelo.
+
+El tokenizer incluido es sencillo y separa palabras y signos de puntuación; sirve para aprender y ejecutar el ejemplo, no pretende sustituir un tokenizer subword de producción. El notebook original de atención se conserva como `notebooks/03_attention.ipynb`. La imagen de referencia está en `docs/transformer.png`.
